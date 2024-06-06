@@ -27,6 +27,7 @@ jobs:
         name: Build an image then push it to GitHub registry
         with:
           context: .
+          file: example/Dockerfile
           platforms: linux/amd64
           push: false
 
