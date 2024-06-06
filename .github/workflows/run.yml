@@ -12,9 +12,20 @@ jobs:
         name: Checkout repository
 
       - name: GitHub Contexts
-        run: echo "${JSON_VALUE}"
+        run: |
+          echo "---------"
+          echo "current-dir: ${PWD}"
+          echo "---------"
+          echo "${JSON_VALUE}"
         env:
           JSON_VALUE: "${{ toJson(github) }}"
+
+      - uses: docker/build-push-action@v5
+        name: Build an image then push it to GitHub registry
+        with:
+          context: .
+          platforms: linux/amd64
+          push: false
 
 #      - uses: hadolint/hadolint-action@v3.1.0
 #        name: Runs hadolint
