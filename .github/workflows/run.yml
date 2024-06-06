@@ -11,6 +11,9 @@ jobs:
       - uses: actions/checkout@v4
         name: Checkout repository
 
+      - name: Setup buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: GitHub Contexts
         run: |
           echo "---------"
