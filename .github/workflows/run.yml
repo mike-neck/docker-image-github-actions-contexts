@@ -25,7 +25,7 @@ jobs:
           echo "G_ENV_VALUES=${GITHUB_ENV}" >> "${GITHUB_ENV}"
 
       - name: Random Challenge
-        run: (( RANDOM % 2 )) || echo "RANDOM_CHALLENGE=ok" | tee "${GITHUB_ENV}"
+        run: true || echo "RANDOM_CHALLENGE=ok" | tee "${GITHUB_ENV}"
 
       - name: Test Challenge
         run: echo "${RANDOM_CHALLENGE}"
