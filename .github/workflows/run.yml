@@ -28,7 +28,7 @@ jobs:
 
       - name: Test Challenge
         run: echo "${RANDOM_CHALLENGE}"
-        if: ${{ env.RANDOM_CHALLENGE != '' }}
+        if: ${{ env.RANDOM_CHALLENGE == 'ok' }}
 
       - name: GitHub Contexts
         run: |
