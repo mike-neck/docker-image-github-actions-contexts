@@ -23,6 +23,13 @@ jobs:
           echo "PREPARE_TARGET=$(uname -a)" >> "${GITHUB_ENV}"
           echo "G_ENV_VALUES=${GITHUB_ENV}" >> "${GITHUB_ENV}"
 
+      - name: Random Challenge
+        run: (( $RANDOM % 2 )) || echo "RANDOM_CHALLENGE=ok" tee "${GITHUB_ENV}"
+
+      - name: Test Challenge
+        run: echo "${RANDOM_CHALLENGE}"
+        if: ${{ env.RANDOM_CHALLENGE }}
+
       - name: GitHub Contexts
         run: |
           echo "---------"
