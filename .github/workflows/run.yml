@@ -24,11 +24,11 @@ jobs:
           echo "G_ENV_VALUES=${GITHUB_ENV}" >> "${GITHUB_ENV}"
 
       - name: Random Challenge
-        run: echo "RANDOM_CHALLENGE=ok" tee "${GITHUB_ENV}"
+        run: echo "RANDOM_CHALLENGE=ok" | tee "${GITHUB_ENV}"
 
       - name: Test Challenge
         run: echo "${RANDOM_CHALLENGE}"
-        if: ${{ env.RANDOM_CHALLENGE == 'ok' }}
+        if: ${{ env.RANDOM_CHALLENGE }}
 
       - name: GitHub Contexts
         run: |
