@@ -3,6 +3,10 @@ name: example-build
 on:
   push: {}
 
+env:
+  TARGET_USER_NAME: test
+  IMAGE_NAME: image
+
 jobs:
   lint:
     runs-on: ubuntu-22.04
