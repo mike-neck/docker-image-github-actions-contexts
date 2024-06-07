@@ -2,6 +2,7 @@ name: example-build
 
 on:
   push: {}
+  pull_request: {}
 
 jobs:
   lint:
