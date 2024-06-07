@@ -18,6 +18,11 @@ jobs:
       - name: Setup buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Prepare env
+        run: |
+          echo "PREPARE_TARGET=$(uname -a)" >> "${GITHUB_ENV}"
+          echo "G_ENV_VALUES=${GITHUB_ENV}" >> "${GITHUB_ENV}"
+
       - name: GitHub Contexts
         run: |
           echo "---------"
