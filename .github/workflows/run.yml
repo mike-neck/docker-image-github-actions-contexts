@@ -52,6 +52,14 @@ jobs:
         run: echo "empty is not empty"
         if: ${{ steps.prepare-env.outputs.emptyValue }}
 
+      - name: Test Unknown is empty
+        run: echo "empty is empty"
+        if: ${{ !steps.prepare-env.outputs.unknown-value }}
+
+      - name: Test Unknown is not empty
+        run: echo "empty is not empty"
+        if: ${{ steps.prepare-env.outputs.unknown-value }}
+
       - name: Test Non Empty is empty
         run: echo "none empty is empty"
         if: ${{ !steps.prepare-env.outputs.nonEmptyValue }}
