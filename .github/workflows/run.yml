@@ -11,6 +11,11 @@ env:
 jobs:
   lint:
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        has-output:
+          - true
+          - false
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -25,59 +30,10 @@ jobs:
         env:
           JSON_VALUE: "${{ toJson(github) }}"
 
-#      - name: Setup buildx
-#        uses: docker/setup-buildx-action@v3
+      - name: Set Output
+        id: exp
+        if: ${{ matrix.has-output == 'true' }}
+        run: echo "value=test" >> "${GITHUB_OUTPUT}"
 
-      - name: Prepare env
-        id: prepare-env
-        run: |
-          echo "PREPARE_TARGET=$(uname -a)" >> "${GITHUB_ENV}"
-          echo "G_ENV_VALUES=${GITHUB_ENV}" >> "${GITHUB_ENV}"
-          declare EMPTY=""
-          echo "emptyValue=${EMPTY}" >> "${GITHUB_OUTPUT}"
-          echo "nonEmptyValue=$(uname -a)" >> "${GITHUB_OUTPUT}"
-
-      - name: Random Challenge
-        run: true || echo "RANDOM_CHALLENGE=ok" | tee "${GITHUB_ENV}"
-
-      - name: Test Challenge
-        run: echo "${RANDOM_CHALLENGE}"
-        if: ${{ env.RANDOM_CHALLENGE }}
-
-      - name: Test Empty is empty
-        run: echo "empty is empty"
-        if: ${{ !steps.prepare-env.outputs.emptyValue }}
-
-      - name: Test Empty is not empty
-        run: echo "empty is not empty"
-        if: ${{ steps.prepare-env.outputs.emptyValue }}
-
-      - name: Test Unknown is empty
-        run: echo "empty is empty"
-        if: ${{ !steps.prepare-env.outputs.unknown-value }}
-
-      - name: Test Unknown is not empty
-        run: echo "empty is not empty"
-        if: ${{ steps.prepare-env.outputs.unknown-value }}
-
-      - name: Test Non Empty is empty
-        run: echo "none empty is empty"
-        if: ${{ !steps.prepare-env.outputs.nonEmptyValue }}
-
-      - name: Test Non Empty is not empty
-        run: echo "none empty is not empty"
-        if: ${{ steps.prepare-env.outputs.nonEmptyValue }}
-
-#      - uses: docker/build-push-action@v5
-#        name: Build an image then push it to GitHub registry
-#        with:
-#          context: .
-#          file: example/Dockerfile
-#          platforms: linux/amd64
-#          push: false
-
-#      - uses: hadolint/hadolint-action@v3.1.0
-#        name: Runs hadolint
-
-
-
+      - name: Show Output
+        run: echo "test=${{ steps.exp.outputs.value }}"
