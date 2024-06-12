@@ -31,11 +31,3 @@ jobs:
           echo "${JSON_VALUE}"
         env:
           JSON_VALUE: "${{ toJson(github) }}"
-
-      - name: Set Output
-        id: exp
-        if: ${{ matrix.has-output }}
-        run: echo "value=test" >> "${GITHUB_OUTPUT}"
-
-      - name: Show Output
-        run: echo "test=${{ steps.exp.outputs.value }}"
