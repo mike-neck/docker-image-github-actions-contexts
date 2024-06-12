@@ -1,7 +1,9 @@
 name: example-build
 
 on:
-  push: {}
+  push:
+    branches:
+      - main
   workflow_dispatch: {}
 
 env:
