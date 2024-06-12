@@ -32,7 +32,7 @@ jobs:
 
       - name: Set Output
         id: exp
-        if: ${{ matrix.has-output == 'true' }}
+        if: ${{ matrix.has-output }}
         run: echo "value=test" >> "${GITHUB_OUTPUT}"
 
       - name: Show Output
