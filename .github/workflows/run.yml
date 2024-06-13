@@ -32,3 +32,22 @@ jobs:
           echo "${JSON_VALUE}"
         env:
           JSON_VALUE: "${{ toJson(github) }}"
+
+      - name: Run If pull_request
+        if: ${{ github.event.pull_request }}
+        id: with-pr
+        run: echo "value=${{ github.event.pull_request.issue_url }}" > "${GITHUB_OUTPUT}"
+
+      - name: Run If with-pr has value
+        run: |
+          function countArgs() {
+            echo "${#}"
+            if [[ -n "${1}" ]]; then
+              echo "not empty: ${1}"
+            else
+              echo "empty: ${1}"
+            fi
+          }
+          countArgs "${{ steps.with-pr.outputs.value }}"
+          countArgs "${{ steps.with-pr.outputs.value || "" }}"
+
