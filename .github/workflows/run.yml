@@ -49,5 +49,5 @@ jobs:
             fi
           }
           countArgs "${{ steps.with-pr.outputs.value }}"
-          countArgs "${{ steps.with-pr.outputs.value || "" }}"
+          countArgs "${{ steps.with-pr.outputs.value || github.event.number }}"
 
