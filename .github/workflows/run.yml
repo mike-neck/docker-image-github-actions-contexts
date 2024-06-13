@@ -48,6 +48,11 @@ jobs:
               echo "empty: ${1}"
             fi
           }
+          echo "with dq"
           countArgs "${{ steps.with-pr.outputs.value }}"
           countArgs "${{ steps.with-pr.outputs.value || github.event.number }}"
+          echo "without dq"
+          countArgs ${{ steps.with-pr.outputs.value }}
+          countArgs ${{ steps.with-pr.outputs.value || github.event.number }}
+          
 
