@@ -24,6 +24,11 @@ jobs:
       - uses: actions/checkout@v4
         name: Checkout repository
 
+      - name: Show Paths
+        run: |
+          echo "${HOME}"
+          echo "${PWD}"
+
       - name: GitHub Contexts
         run: |
           echo "---------"
