@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  pull_request: {}
   workflow_dispatch: {}
 
 env:
@@ -23,6 +24,11 @@ jobs:
       - uses: actions/checkout@v4
         name: Checkout repository
 
+      - name: Show Paths
+        run: |
+          echo "${HOME}"
+          echo "${PWD}"
+
       - name: GitHub Contexts
         run: |
           echo "---------"
@@ -32,10 +38,26 @@ jobs:
         env:
           JSON_VALUE: "${{ toJson(github) }}"
 
-      - name: Set Output
-        id: exp
-        if: ${{ matrix.has-output }}
-        run: echo "value=test" >> "${GITHUB_OUTPUT}"
+      - name: Run If pull_request
+        if: ${{ github.event.pull_request }}
+        id: with-pr
+        run: echo "value=${{ github.event.pull_request.issue_url }}" > "${GITHUB_OUTPUT}"
 
-      - name: Show Output
-        run: echo "test=${{ steps.exp.outputs.value }}"
+      - name: Run If with-pr has value
+        run: |
+          function countArgs() {
+            echo "${#}"
+            if [[ -n "${1}" ]]; then
+              echo "not empty: ${1}"
+            else
+              echo "empty: ${1}"
+            fi
+          }
+          echo "with dq"
+          countArgs "${{ steps.with-pr.outputs.value }}"
+          countArgs "${{ steps.with-pr.outputs.value || github.event.number }}"
+          echo "without dq"
+          countArgs ${{ steps.with-pr.outputs.value }}
+          countArgs ${{ steps.with-pr.outputs.value || github.event.number }}
+          
+
